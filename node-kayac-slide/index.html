@@ -1,0 +1,584 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>node.js: An Introduction</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.3" />
+<meta name="author" content="Eric A. Meyer" />
+<meta name="company" content="Complex Spiral Consulting" />
+<!-- meta extensions -->
+<meta name="subject" content="S5 1.3beta7" />
+<meta name="creator" content="Christian Effenberger" />
+<meta name="contributor" content="youcan[64]netzgesta[46]de" /><meta name="publisher" content="s5.netzgesta.de" /><meta name="description" content="S5 1.3 is a very flexible and lightweight slide show system available for anyone to use (including transitions and scalable fonts and images)" /><meta name="keywords" content="S5, slide show, projection-mode, powerpoint-like, scala-like, keynote-like, incremental display, scalable fonts, scalable images, transitions, notes, osf, xoxo, css, javascript, xhtml, public domain" /><meta name="robots" content="index, follow" />
+<meta name="revisit-after" content="7 days" />
+<!-- meta temporary -->
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- configuration extensions -->
+<meta name="tranSitions" content="true" />
+<meta name="fadeDuration" content="500" />
+<meta name="incrDuration" content="250" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/scala_gfx/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/scala_gfx/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/scala_gfx/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/scala_gfx/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- embedded styles -->
+<style type="text/css" media="all">
+.imgcon {width: 100%; margin: 0 auto; padding: 0; text-align: center;}
+#anim {width: 33%; height: 320px; position: relative;}
+#anim img {position: absolute; top: 0px; left: 0px;}
+.slide pre {color: #fff;}
+.slide h1 {font-variant: normal !important; text-transform: none !important;}
+</style>
+<!-- S5 JS -->
+<script src="ui/scala_gfx/slides.js" type="text/javascript"></script>
+<script src="js/underscore-min.js" type="text/javascript"></script>
+<script src="js/backbone-min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>node.js</h1>
+<h2>2010年12月3日</h2>
+</div>
+</div>
+
+<ol class="xoxo presentation">
+
+<li class="slide">
+<h1>node.js</h1>
+<h3>飯塚直</h3>
+<h4><a href="http://www.kayac.com/" rel="external">面白法人カヤック</a></h4>
+<div class="handout"></div>
+</li>
+
+
+<li class="slide">
+<h1>node.jsとは？</h1>
+<ul>
+<li>サーバサイドJavaScript</li>
+<li>Google ChromeのV8 JavaScriptエンジン搭載</li>
+<li>UNIXライクなOS上で動作</li>
+<li>作者はJoyent社のRyan Dahl氏</li>
+</ul>
+
+</li>
+
+
+<li class="slide">
+<h1>良いところ</h1>
+<ul>
+<li>高速に動作</li>
+<li>メモリ効率が良い</li>
+<li>学習コストが低い</li>
+<li>コンパクトに書ける</li>
+<li>イベント駆動、非同期処理が基本</li>
+<li>スケーラブルなネットワークプログラムを作りやすい</li>
+<li>楽しい</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>悪いところ</h1>
+<ul>
+<li>標準ライブラリが少ない（現状では）</li>
+<li>まだ成熟していない（大きな仕様変更等あり）</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>Webサーバ - Hello World</h1>
+<br />
+<pre style="font-size:85%">
+var http = require('http');
+ 
+http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Hello World\n');
+}).listen(3000);
+ 
+console.log('Server running at http://127.0.0.1:3000/');
+</pre>
+</li>
+
+<li class="slide">
+<h1>パフォーマンス計測</h1>
+<div style="float:left;width:50%;font-size:77%">
+テスト条件
+<ul>
+<li>Debian GNU/Linux 5.0.6</li>
+<li>Intel Core 2 Duo T7700 2.40GHz</li>
+<li>512MB RAM</li>
+<li>最も単純なHelloWorldを作成</li>
+<li>ab -n10000 -c20 http://localhost/hello</li>
+</ul>
+</div>
+<div style="float:left;width:50%;font-size:77%">
+選手
+<ul>
+<li>Starman (Plack - Perl)</li>
+<li>Starlet (Plack - Perl)</li>
+<li>mod_php</li>
+<li>node.js</li>
+<li>uWSGI (WSGI - Python)</li>
+<li>Thin (Rack - Ruby)</li>
+</ul>
+<div style="margin-top:.5em">
+おまけ (静的HTML)
+<ul>
+<li>Apache</li>
+<li>lighttpd</li>
+<li>nginx</li>
+</ul>
+</div>
+<div style="margin-top:.5em">
+すべて設定はデフォルト
+</div>
+</div>
+</li>
+
+<li class="slide">
+<center>
+<img class="scale" src="pix/benchmark.png" width="759" height="600" alt="" title="comparison between webservers" />
+</center>
+</li>
+
+<li class="slide">
+<h1>インストール</h1>
+<br />
+MacでHomebrewを使用している場合
+<pre>
+$ brew install node
+</pre>
+</li>
+
+<li class="slide">
+<h1>パッケージマネージャ</h1>
+<br />
+<img src="pix/npm.png" width="322" height="119" title="npm" /><br />
+PerlのCPAN、PHPのPEAR/PECLに相当<br />
+<br />
+<h4>パッケージのインストール</h4>
+<pre>
+$ npm install express
+</pre><br />
+<h4>パッケージの使用</h4>
+<pre>
+var express = require('express');
+</pre>
+</li>
+
+<li class="slide">
+<h1>非同期処理が基本</h1>
+<br />
+setTimeoutやXMLHttpRequestで使うクロージャ／コールバック<br />
+<br />
+<pre>
+setTimeout(function() {
+    alert('1秒経ちました');
+}, 1000);
+</pre>
+</li>
+
+<li class="slide">
+<h1>ファイル読み込み</h1>
+<pre style="font-size:77%">
+var fs = require('fs');
+
+fs.readFile('/etc/passwd', 'utf8', function(err, data) {
+    // ファイル読み込みが終わったらここに来る
+    if (err) throw err;
+    console.log(data);
+});
+
+
+
+// 同期処理用の関数も存在するが、あまり推奨されない
+var content = fs.readFileSync('/etc/passwd', 'utf8');
+console.log(content);
+</pre>
+</li>
+
+<li class="slide">
+<h1>ファイル書き込み</h1>
+<pre style="font-size:77%">
+var fs = require('fs');
+
+fs.writeFile('out.txt', "Hello Node\n", function(err) {
+    // ファイル書き込みが終わったらここに来る
+    if (err) throw err;
+    console.log('saved!');
+});
+</pre>
+</li>
+
+<li class="slide">
+<h1>ファイル変更監視</h1>
+<br />
+<pre>
+var fs = require('fs');
+
+fs.watchFile('message.txt', function(curr, prev) {
+    console.log('更新時刻: ' + curr.mtime);
+    console.log('前回更新時刻: ' + prev.mtime);
+});
+</pre>
+</li>
+
+<li class="slide">
+<h1>DB操作ライブラリ</h1>
+<ul>
+<li>MySQL</li>
+<li>PostgreSQL</li>
+<li>SQLite</li>
+<li>memcached</li>
+<li>Tokyo Cabinet / Tokyo Tyrant</li>
+<li>MongoDB</li>
+<li>CouchDB</li>
+<li>redis</li>
+<li>HBase</li>
+<li>HandlerSocket</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>数多くのライブラリ</h1>
+<br />
+XML, DNS, XMPP, SMTP, IMAP, gzip, msgpack<br />
+GD, ImageMagick, GraphViz, MapServer<br />
+Dropbox, Twitter, Facebook, Flickr, Last.fm, Bit.ly, GitHub<br />
+Google Maps, Gearman, beanstalkd<br />
+pub/sub, sendmail, Growl, Amazon Web Services (S3/EC2), Solr, PDF, SHOUTcast/Icecast<br />
+<br />
+すべてのライブラリが非同期処理を基本として作られている<br />
+<ul>
+<li>https://github.com/ry/node/wiki/modules</li>
+<li>$ npm list</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>Twitter Streaming API</h1>
+<pre>
+var TwitterNode = require('twitter-node').TwitterNode
+
+var twit = new TwitterNode({
+    user: 'username',
+    password: 'password',
+});
+twit
+  // 捕捉するキーワード
+  .track('music')
+  // エラー時のコールバック
+  .addListener('error', function(error){
+    console.log(error.message)
+  })
+  // ツイート新着時のコールバック
+  .addListener('tweet', function(tweet) {
+    console.log('@' + tweet.user.screen_name
+                + ': ' + tweet.text);
+  })
+  .stream();
+</pre>
+</li>
+
+<li class="slide">
+<br /><br /><br />
+<center>
+<img src="pix/express.png" width="540" height="147" title="express" />
+</center>
+</li>
+
+<li class="slide">
+<h1>express</h1>
+SinatraライクなWebサーバ
+<pre>
+var express = require('express')
+var app = express.createServer();
+
+app.get('/', function(req, res) {
+    res.send('Hello World\n');
+});
+
+app.get('/rand/:max', function(req, res) {
+    var max = parseInt(req.params.max);
+    var rand = Math.floor(Math.random() * (max + 1));
+    res.send('random: ' + rand + '\n');
+});
+
+app.listen(3000);
+</pre>
+</li>
+
+<li class="slide">
+<br /><br /><br />
+<center>
+<h2 style="font-size:120%">Socket.io</h2>
+<br />
+<img src="pix/socketio.png" width="574" height="177" title="Socket.io" />
+</center>
+</li>
+
+<li class="slide">
+<h1>Socket.io</h1>
+ぼくらのWebSocket<br />
+リアルタイムアプリの開発に便利<br />
+WebSocket, Flash, Cometなどを自動判別して使用<br />
+<ul style="font-size:85%">
+<li>Internet Explorer 5.5 - 8</li>
+<li>Safari 3 - 5</li>
+<li>Google Chrome 4 - 6</li>
+<li>Firefox 3 - 4</li>
+<li>Opera 10.61</li>
+<li>iPhone Safari</li>
+<li>iPad Safari</li>
+<li>Android WebKit</li>
+<li>Palm webOS WebKit</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>Socket.io</h1>
+クライアントサイド
+<pre style="font-size:66%">
+&lt;script src="http://localhost:8124/socket.io/socket.io.js"&gt;&lt;/script&gt;
+</pre>
+<pre style="font-size:66%">
+&lt;script&gt;
+var socket = new io.Socket('localhost', {port: 8124});
+
+socket.on('connect', function() {
+    console.log('connected');
+});
+socket.on('message', function(data) {
+    // サーバからメッセージ到着
+    console.dir(data);
+});
+socket.on('disconnect', function() {
+    console.dir('disconnected');
+});
+socket.connect();
+
+// サーバにメッセージ送信
+socket.send('hello');
+&lt;/script&gt;
+<pre>
+</pre>
+</li>
+
+<li class="slide">
+<h1>Socket.io</h1>
+サーバサイド
+<pre style="font-size:66%">
+var http = require('http')
+,   io = require('socket.io')
+var server = http.createServer();
+server.listen(8124);
+
+var socket = io.listen(server);
+socket.on('connection', function(client) {
+    // 新しく接続したクライアントにメッセージを送信
+    client.send('welcome!');
+
+    client.on('message', function(data) {
+        // クライアントからメッセージが来た
+    })
+    client.on('disconnect', function() {
+        // クライアントが接続を切った
+    })
+});
+
+// 接続中の全クライアントに配信
+socket.broadcast('how are you?');
+</pre>
+</li>
+
+<li class="slide">
+<h1>チャット</h1>
+<br />
+簡単に作れる<br />
+http://172.16.12.22:8124/
+</li>
+
+<li class="slide">
+<h1>マルチプレイヤーのゲーム</h1>
+<br />
+あまり難しい事を考えずに作れる
+http://172.16.12.22:8125/<br />
+<br />
+<h4>ルール</h4>
+移動: hjkl または wasd または 矢印キー<br />
+セルが重なるときに:<br />
+- 自分が動いて相手のセルに乗っかると勝ち<br />
+- 相手が動いて自分のセルに乗っかると負け<br />
+負けると自分のセル(薄緑色)が消える<br />
+ページリロードで再スタート
+</li>
+
+<li class="slide">
+<br />
+<center>
+<h2 style="font-size:120%">クライアントサイドで使える<br />ナイスなライブラリ</h2>
+<br />
+<img src="pix/backbonejs.png" width="439" height="170" title="Backbone.js" />
+</center>
+</li>
+
+<li class="slide">
+<h1>Backbone.js</h1>
+モデル、カスタムイベント、コレクション、ビューなどの機能<br />
+<script type="text/javascript">
+function demo1() {
+// クラス定義
+var user1 = new Backbone.Model({
+    name:  'nao',
+    email: 'iizuka-nao@kayac.com'
+});
+
+// changeイベントをバインド
+user1.bind('change', function(model) {
+    alert('changed from ' + model.previous('name')
+          + ' to ' + model.get('name'));
+});
+
+// プロパティを変更
+user1.set({ name: 'naomi' });
+}
+</script>
+<pre style="font-size:85%">
+var user1 = new Backbone.Model({
+    name:  'nao',
+    email: 'iizuka-nao@kayac.com'
+});
+
+// changeイベントにコールバックを登録
+user1.bind('change', function(model) {
+    alert('changed from ' + model.previous('name')
+          + ' to ' + model.get('name'));
+});
+
+// user1オブジェクトのプロパティを変更
+user1.set({ name: 'naomi' });
+</pre>
+<a href="javascript:void(0)" onclick="demo1()">Run</a>
+</li>
+
+<li class="slide">
+<h1>Backbone.js</h1>
+サーバーサイドのモデルとのCRUD連携
+<pre style="font-size:85%">
+// クラス定義
+var User = Backbone.Model.extend({
+    url: '/users'
+});
+
+// インスタンス化
+var user1 = new User({
+    name:  'nao',
+    email: 'iizuka-nao@kayac.com'
+});
+
+// サーバ上に保存
+user1.save();
+
+// サーバから更新データを取得
+user1.fetch();
+</pre>
+</li>
+
+<li class="slide">
+<h1>Underscore.js</h1>
+JSの配列用関数を拡張するライブラリ<br />
+<!--
+<h4>each</h4>
+_.each([1, 2, 3], function(num){ alert(num); });
+=&gt; 1, 2, 3の順にalert
+<h4>map</h4>
+_.map([1, 2, 3], function(num){ return num * 3; });<br />
+=&gt; [3, 6, 9]
+<h4>reduce</h4>
+var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=&gt; 6
+<h4>select</h4>
+(grepと同じ)<br />
+var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });<br />
+=&gt; [2, 4, 6]
+<h4>flatten</h4>
+_.flatten([1, [2], [3, [[[4]]]]]);<br />
+=&gt; [1, 2, 3, 4]
+-->
+<br />
+each, map, reduce, select(=grep),<br />
+keys, values, flatten<br />
+extend, clone, times<br />
+chain, tap<br />
+etc.<br />
+<br />
+http://documentcloud.github.com/underscore/<br />
+<br />
+node.jsでもほぼ使える<br />
+</li>
+
+<li class="slide">
+<h1>forever</h1>
+<br />
+daemontoolsに相当
+<pre>
+$ npm install forever
+$ forever start server.js
+$ forever list
+  [0] server.js [ 28856, 28855 ]
+
+$ forever stop 0
+</pre>
+</li>
+
+<li class="slide">
+<h1>ホスティングサービス</h1>
+<ul>
+<li>Heroku (実験的)</li>
+<li>no.de (クローズドベータ)</li>
+<li>jsapp.us (wonderflみたいなもの)</li>
+</li>
+
+<li class="slide">
+<h4>Node.js Knockout</h4>
+node.jsを使ったコーディングコンテスト<br />
+http://nodeknockout.com (down)<br />
+<br />
+<h4>MapRejuice</h4>
+サイトにアクセスしたブラウザ上でMapReduce<br />
+http://maprejuice.com (down)<br />
+<br />
+<h4>マルチプレイヤーゲーム</h4>
+http://lazeroids.com<br />
+http://swarmation.com<br />
+<br />
+<h4>リアルタイムシステムモニタ</h4>
+http://monitaur.net
+</li>
+
+<li class="slide">
+<br /><br /><br />
+<center>
+<h2 style="font-size:120%">ありがとうございました</h2>
+</center>
+</li>
+
+</ol>
+
+</body>
+</html>
