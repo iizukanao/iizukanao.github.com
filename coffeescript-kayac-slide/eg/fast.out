@@ -1,0 +1,59 @@
+1
+2
+3
+4
+5
+[ 2, 4, 6, 8, 10 ]
+sum2: 15
+[ 1, 2, 4, 5 ]
+[ [ 'a', 'x' ], [ 'b', 'y' ], [ 'c', 'z' ] ]
+{ width: 100, height: 100, x: 30, y: 30 }
+{ width: 200, height: 200, x: 30, y: 30 }
+[ 2, 4, 6 ]
+result: 4, 16, 36
+hi
+hi
+hi
+num: 0, result: 0
+num: 1, result: 1
+num: 2, result: 1
+num: 3, result: 2
+num: 4, result: 3
+num: 5, result: 5
+num: 6, result: 8
+num: 7, result: 13
+num: 8, result: 21
+num: 9, result: 34
+num: 10, result: 55
+num: 11, result: 89
+num: 12, result: 144
+num: 13, result: 233
+num: 14, result: 377
+num: 15, result: 610
+num: 16, result: 987
+num: 17, result: 1597
+num: 18, result: 2584
+num: 19, result: 4181
+num: 20, result: 6765
+num: 21, result: 10946
+num: 22, result: 17711
+num: 23, result: 28657
+num: 24, result: 46368
+num: 25, result: 75025
+num: 26, result: 121393
+num: 27, result: 196418
+num: 28, result: 317811
+num: 29, result: 514229
+num: 30, result: 832040
+num: 31, result: 1346269
+num: 32, result: 2178309
+num: 33, result: 3524578
+num: 34, result: 5702887
+num: 35, result: 9227465
+num: 36, result: 14930352
+num: 37, result: 24157817
+num: 38, result: 39088169
+num: 39, result: 63245986
+num: 40, result: 102334155
+elapsed 0ms
+fibonacci() called 41 times

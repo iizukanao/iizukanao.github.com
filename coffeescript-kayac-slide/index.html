@@ -1,0 +1,1063 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Instant CoffeeScript</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.3" />
+<meta name="author" content="Eric A. Meyer" />
+<meta name="company" content="Complex Spiral Consulting" />
+<!-- meta extensions -->
+<meta name="subject" content="S5 1.3beta7" />
+<meta name="creator" content="Christian Effenberger" />
+<meta name="contributor" content="youcan[64]netzgesta[46]de" /><meta name="publisher" content="s5.netzgesta.de" /><meta name="description" content="S5 1.3 is a very flexible and lightweight slide show system available for anyone to use (including transitions and scalable fonts and images)" /><meta name="keywords" content="S5, slide show, projection-mode, powerpoint-like, scala-like, keynote-like, incremental display, scalable fonts, scalable images, transitions, notes, osf, xoxo, css, javascript, xhtml, public domain" /><meta name="robots" content="index, follow" />
+<meta name="revisit-after" content="7 days" />
+<!-- meta temporary -->
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- configuration extensions -->
+<meta name="tranSitions" content="true" />
+<meta name="fadeDuration" content="500" />
+<meta name="incrDuration" content="250" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/scala_gfx/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/scala_gfx/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/scala_gfx/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/scala_gfx/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- embedded styles -->
+<style type="text/css" media="all">
+.imgcon {width: 100%; margin: 0 auto; padding: 0; text-align: center;}
+#anim {width: 33%; height: 320px; position: relative;}
+#anim img {position: absolute; top: 0px; left: 0px;}
+.slide pre {color: #fff;}
+.slide h1 {font-variant: normal !important; text-transform: none !important;}
+.half-column { width:50%; float:left; }
+.column-title { border-bottom:1px solid #888;color:#888;width:70%;font-size:90%;margin-bottom:.6em; }
+.code-title { width:100%; font-size:90%; margin-bottom: .5em; }
+pre.code { font-size:60%; }
+.keyword { color:yellow; }
+.operator { color:#bbf; }
+.variable { color:#fbb; }
+.output   { color:#bfb; }
+</style>
+<!-- S5 JS -->
+<script src="ui/scala_gfx/slides.js" type="text/javascript"></script>
+<script src="js/underscore-min.js" type="text/javascript"></script>
+<script src="js/backbone-min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>Instant CoffeeScript</h1>
+<h2>2010年12月3日</h2>
+</div>
+</div>
+
+<ol class="xoxo presentation">
+
+<li class="slide">
+<h1><span style="font-size:55%">Instant</span> <img src="pix/coffeescript_logo.png" /></h1>
+<h3>飯塚直</h3>
+<h4><a href="http://www.kayac.com/" rel="external">面白法人カヤック</a></h4>
+<div class="handout"></div>
+</li>
+
+
+<li class="slide">
+<h1>CoffeeScriptとは？</h1>
+<ul>
+<li>JavaScriptにコンパイルできる小さな言語</li>
+<li>実行時はJSとして動く</li>
+<li>既存のJSライブラリを使用可能</li>
+<li>コンパイル時に多少最適化される</li>
+</ul>
+
+</li>
+
+
+<li class="slide">
+<h1>良いところ</h1>
+<ul>
+<li>Rubyっぽくシンプルかつスマートに書ける</li>
+<li>学習コストが低い</li>
+<li>タイプ数が減る</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>欠点</h1>
+<ul>
+<li>変換は非可逆</li>
+<li>たまに癖あり</li>
+</ul>
+</li>
+
+<li class="slide">
+<h1>インストール</h1>
+<br />
+npmがインストールされている場合
+<pre>
+$ npm install coffee-script
+</pre>
+</li>
+
+<li class="slide">
+<h1>使い方</h1>
+カレントディレクトリの *.coffee を *.js にコンパイル
+<pre>
+$ coffee -bc .
+</pre>
+さらに ソースファイルの変更を監視して自動的にコンパイル
+<pre>
+$ coffee -wbc .
+</pre>
+さらに コンパイルエラーをGrowlで通知 + 新規ファイルの検知
+<pre>
+$ npm install jitter
+$ jitter . .
+</pre>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+varやセミコロンを書かなくていい
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code">
+number   = 42
+opposite = true
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code">
+var number, opposite;
+number = 42;
+opposite = true;
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+functionと書かなくていい (Erlang風の関数定義)<br />
+functionの最後の値が自動的にreturnされる
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code">
+# 2乗
+square = (x) <span class="operator">-&gt;</span> x * x
+
+# 階乗
+factorial = (n) <span class="operator">-&gt;</span>
+    <span class="keyword">if</span> n <span class="keyword">is</span> 0
+        1
+    <span class="keyword">else</span>
+        n * factorial(n-1)
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code">
+var factorial, square;
+square = function(x) {
+  return x * x;
+};
+factorial = function(n) {
+  if (n === 0) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
+  }
+};
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+文字列への変数埋め込み
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+str = "my name is <span class="variable">#{name}</span>"
+
+alert "It is <span class="variable">#{Date.now()}</span>"
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var str;
+str = "my name is " + name;
+
+alert("It is " + (Date.now()));
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+後置形式のif, unless, while, until
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+throw 'spoon' <span class="keyword">if</span> tired
+
+rideBike() <span class="keyword">unless</span> weather is 'rainy'
+
+play() <span class="keyword">while</span> money &gt; 0
+
+sleep() <span class="keyword">until</span> time >= 9
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+if (tired) {
+  throw 'spoon';
+}
+
+if (weather !== 'rainy') {
+  rideBike();
+}
+
+while (money > 0) {
+  play();
+}
+
+while (!(time >= 9)) {
+  sleep();
+}
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+オブジェクト作成
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+user =
+    id:    1
+    name:  'nao'
+    email: 'iizuka-nao@kayac.com'
+    say:   (word) -> console.log(word)
+    class: 'employee'
+
+pos = x: 30, y: 30
+
+setSize(width:320, height:480)
+
+console.log(user.name)
+console.log(user.class)
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var pos, user;
+user = {
+  id: 1,
+  name: 'nao',
+  email: 'iizuka-nao@kayac.com',
+  say: function(word) {
+    return console.log(word);
+  },
+  <span class="keyword">"class"</span>: 'employee'
+};
+pos = {
+  x: 30,
+  y: 30
+};
+setSize({
+  width: 320,
+  height: 480
+});
+console.log(user.name);
+console.log(user<span class="keyword">["class"]</span>);
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+演算子
+</div>
+<div style="width:35%">
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code">
+is
+isnt
+not
+and
+or
+this
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code">
+===
+!==
+!
+&amp;&amp;
+||
+@
+</pre>
+</div>
+</div>
+
+<div style="clear:both;margin-top:2em;">&nbsp;</div>
+
+<div class="half-column" style="width:45%">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:70%">
+# ""や0などfalse値ならdefaultsを代入
+options <span class="keyword">or=</span> defaults
+
+# undefinedかnullならdefaultsを代入
+options <span class="keyword">?=</span> defaults
+</pre>
+</div>
+<div class="half-column" style="width:55%">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+options || (options = defaults);
+
+typeof options != "undefined" &amp;&amp; options !== null
+  ? options : options = defaults;
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+this症候群の回避
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+<span class="keyword">class</span> User
+  <span class="keyword">constructor</span>: (<span class="variable">@name</span>) ->
+
+  greeting: -&gt;
+    this.say "$ my name is #{<span class="variable">@name</span>}"
+
+  say: (str) -&gt;
+    alert str
+
+user = new User "nao"
+user.greeting()
+<span class="output">&gt; $ my name is nao</span>
+
+<span class="keyword">class</span> SuperUser <span class="keyword">extends</span> User
+  greeting: -&gt;
+    this.say "# my name is #{<span class="variable">@name</span>}"
+
+su = new SuperUser "root"
+su.greeting()
+<span class="output">&gt; # my name is root</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:35%">
+var SuperUser, User, su, user;
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+};
+User = (function() {
+  function User(name) {
+    this.name = name;
+  }
+  User.prototype.greeting = function() {
+    return this.say("$ my name is " + this.name);
+  };
+  User.prototype.say = function(str) {
+    return alert(str);
+  };
+  return User;
+})();
+user = new User("nao");
+user.greeting();
+SuperUser = (function() {
+  function SuperUser() {
+    SuperUser.__super__.constructor.apply(this, arguments);
+  }
+  __extends(SuperUser, User);
+  SuperUser.prototype.greeting = function() {
+    this.say("# my name is " + this.name);
+    return SuperUser.__super__.greeting.call(this, 5);
+  };
+  return SuperUser;
+})();
+su = new SuperUser("root");
+su.greeting();
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+ループ (1)
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+arr = [1, 2, 3]
+console.log(<span class="variable">name</span>) <span class="keyword">for</span> <span class="variable">name</span> <span class="keyword">in</span> arr
+<span class="output">&gt; 1</span>
+<span class="output">&gt; 2</span>
+<span class="output">&gt; 3</span>
+
+<span class="keyword">for</span> <span class="variable">name</span> <span class="keyword">in</span> arr
+    console.log(<span class="variable">name</span>)
+<span class="output">&gt; 1</span>
+<span class="output">&gt; 2</span>
+<span class="output">&gt; 3</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var arr, name, _i, _j, _len, _len2;
+arr = [1, 2, 3];
+for (_i = 0, _len = arr.length; _i < _len; _i++) {
+  name = arr[_i];
+  console.log(name);
+}
+for (_j = 0, _len2 = arr.length; _j < _len2; _j++) {
+  name = arr[_j];
+  console.log(name);
+}
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+ループ (2)
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+numbers = (num <span class="keyword">for</span> num <span class="keyword">in</span> <span class="keyword">[1..10] by 2</span>)
+
+alert numbers.join ','
+<span class="output">&gt; '1,3,5,7,9'</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var num, numbers;
+numbers = (function() {
+  var _results;
+  _results = [];
+  for (num = 1; num <= 10; num++) {
+    _results.push(num);
+  }
+  return _results;
+})();
+alert(numbers.join(','));
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+ループ (3)
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+colors =
+    red:   '#ff0000'
+    green: '#00ff00'
+    blue:  '#0000ff'
+
+str = <span class="keyword">for</span> color, hex <span class="keyword">of</span> colors
+    "#{color} is #{hex}"
+
+alert str.join ', '
+<span class="output" style="font-size:85%">&gt; red is #ff0000, green is #00ff00, blue is #0000ff</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var color, colors, hex, str;
+colors = {
+  red: '#ff0000',
+  green: '#00ff00',
+  blue: '#0000ff'
+};
+str = (function() {
+  var _results;
+  _results = [];
+  for (color in colors) {
+    hex = colors[color];
+    _results.push("" + color + " is " + hex);
+  }
+  return _results;
+})();
+alert(str.join(', '));
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+配列操作
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+numbers = [0...10]
+alert numbers.join ','
+<span class="output">&gt; 0,1,2,3,4,5,6,7,8,9</span>
+
+# 配列の一部を抜き出す
+middle = numbers[3..6]
+alert middle.join ','
+<span class="output">&gt; 3,4,5,6</span>
+
+# 配列の一部を置換
+numbers[3..6] = [-3, -4, -5, -6]
+alert numbers.join ','
+<span class="output">&gt; 0,1,2,-3,-4,-5,-6,7,8,9</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code">
+var middle, numbers, _ref;
+numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+alert(numbers.join(','));
+middle = numbers.slice(3, 7);
+alert(middle.join(','));
+[].splice.apply(numbers,
+ [3, 4].concat(_ref = [-3, -4, -5, -6])), _ref;
+alert(numbers.join(','));
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+prototypeの拡張
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+String::em = ->
+  this + "!"
+
+alert "wow".em()
+<span class="output">&gt; wow!</span>
+
+alert "wow".em().em()
+<span class="output">&gt; wow!!</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+String.prototype.em = function() {
+  return this + "!";
+};
+alert("wow".em());
+alert("wow".em().em());
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+変数の存在チェック
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+# exports変数が存在しnullでなければtrue
+<span class="keyword">if</span> exports<span class="keyword">?</span>
+  alert "CommonJS"
+<span class="keyword">else</span>
+  alert "Browser"
+
+# console変数が存在し、
+# さらにlogメソッドが存在する場合のみ呼び出す
+console<span class="keyword">?.</span>log<span class="keyword">?</span>('hello')
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+if (typeof exports != "undefined"
+    &amp;&amp; exports !== null) {
+  alert("CommonJS");
+} else {
+  alert("Browser");
+}
+
+if (typeof console != "undefined"
+    &amp;&amp; console !== null) {
+  if (typeof console.log == "function") {
+    console.log("hello");
+  }
+}
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+変数のスワップ
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+a = 3
+b = 4
+[b, a] = [a, b]
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var a, b, _ref;
+a = 3;
+b = 4;
+_ref = [a, b], b = _ref[0], a = _ref[1];
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+thisのバインド
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+class User
+  constructor: -&gt;
+    @name = 'nao'
+
+  doit: -&gt;
+    doLater = <span class="keyword">=&gt;</span>
+      # この中でのthisは
+      # 外側のthisと同じものになる
+      alert <span class="keyword">@name</span>
+    setTimeout doLater, 100
+
+user = new User
+user.doit()
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:50%">
+var User, user;
+var __bind = function(fn, me){ return
+ function(){ return fn.apply(me, arguments); }; };
+User = (function() {
+  function User() {
+    this.name = 'nao';
+  }
+  User.prototype.doit = function() {
+    var doLater;
+    doLater = <span class="keyword">__bind</span>(function() {
+      return alert(this.name);
+    }, this);
+    return setTimeout(doLater, 1000);
+  };
+  return User;
+})();
+user = new User;
+user.doit();
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+switch
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+<span class="keyword">switch</span> weather
+    <span class="keyword">when</span> 'sunny', 'cloudy'
+        rideBike()
+
+    <span class="keyword">when</span> 'rainy' <span class="keyword">then</span> takeTrain()
+
+    <span class="keyword">when</span> 'thunderstorm', 'typhoon'
+        stayHome()
+
+    <span class="keyword">when</span> 'snowy' <span class="keyword">then</span> playOutside()
+
+    <span class="keyword">else</span> sleep()
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+switch (weather) {
+  case 'sunny':
+  case 'cloudy':
+    rideBike();
+    break;
+  case 'rainy':
+    takeTrain();
+    break;
+  case 'thunderstorm':
+  case 'typhoon':
+    stayHome();
+    break;
+  case 'snowy':
+    playOutside();
+    break;
+  default:
+    sleep();
+}
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+Chained Comparisons (Python風)
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+age = 17
+isTeen = 13 <= age <= 19
+
+alert isTeen
+<span class="output">&gt; true</span>
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%">
+var age, isTeen;
+age = 17;
+isTeen = (13 <= age && age <= 19);
+alert(isTeen);
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+ヒアドキュメント
+</div>
+<div class="half-column">
+<div class="column-title">
+CoffeeScript
+</div>
+<pre class="code" style="font-size:60%">
+html = '''
+       &lt;html&gt;
+       &lt;head&gt;
+        &lt;title&gt;CoffeeScript&lt;/title&gt;
+       &lt;/head&gt;
+       &lt;body&gt;
+        &lt;table&gt;
+         &lt;tr&gt;
+          &lt;td&gt;a cup of coffeescript&lt;/td&gt;
+         &lt;/tr&gt;
+        &lt;/table&gt;
+       &lt;/body&gt;
+       &lt;/html&gt;
+       '''
+</pre>
+</div>
+<div class="half-column">
+<div class="column-title">
+JavaScript
+</div>
+<pre class="code" style="font-size:60%;width:100%;white-space:pre-line">
+var html;
+html = '&lt;html&gt;\n&lt;head&gt;\n &lt;title&gt;CoffeeScript&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n &lt;table&gt;\n  &lt;tr&gt;\n   &lt;td&gt;a cup of coffeescript&lt;/td&gt;                                                                  \n  &lt;/tr&gt;\n &lt;/table&gt;\n&lt;/body&gt;\n&lt;/html&gt;';
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="code-title">
+<img src="pix/underscore.png" />
+と組み合わせる
+</div>
+<div class="half-column">
+<pre class="code">
+# ロード
+{_} = <span class="keyword">require</span> './ext/underscore-min'
+
+arr = [1, 2, 3, 4, 5]
+
+# foreach
+_(arr).<span class="keyword">each</span> (num) ->
+    console.log num
+<span class="output">&gt; 1</span>
+<span class="output">&gt; 2</span>
+<span class="output">&gt; 3</span>
+<span class="output">&gt; 4</span>
+<span class="output">&gt; 5</span>
+
+# 各要素に対して処理を行った配列を作る
+arr2 = _(arr).<span class="keyword">map</span> (num) ->
+    num * 2
+console.log arr2
+<span class="output">&gt; [ 2, 4, 6, 8, 10 ]</span>
+</pre>
+</div>
+
+<div class="half-column">
+<pre class="code">
+# 各要素に対して処理を行い1つの値を得る
+sum = _(arr).<span class="keyword">reduce</span> (memo, num) ->
+    memo + num
+, 0
+console.log "sum: #{sum}"
+<span class="output">&gt; sum: 15</span>
+
+# 配列から特定の値を除去
+arr3 = _(arr).<span class="keyword">without</span>(3)
+console.log arr3
+<span class="output">&gt; [ 1, 2, 4, 5 ]</span>
+
+# 配列をマージ
+zipped = _.<span class="keyword">zip</span>(['a', 'b', 'c'], ['x', 'y', 'z'])
+console.log zipped
+<span class="output">&gt; [ [ 'a', 'x' ], [ 'b', 'y' ], [ 'c', 'z' ] ]</span>
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="half-column">
+<pre class="code">
+defaultOpts =
+    width: 100
+    height: 100
+    x: 30
+    y: 30
+userOpts =
+    width: 200
+    height: 200
+
+# クローン
+opts = _(defaultOpts).<span class="keyword">clone</span>()
+console.log opts
+<span class="output">&gt; { width: 100, height: 100, x: 30, y: 30 }</span>
+
+# オブジェクトの要素をコピー
+_.<span class="keyword">extend</span>(opts, userOpts)
+console.log opts
+<span class="output">&gt; { width: 200, height: 200, x: 30, y: 30 }</span>
+</pre>
+</div>
+
+<div class="half-column">
+<pre class="code">
+# chain, tap, value
+result = _([1..6]).<span class="keyword">chain</span>().select (num) ->
+    num % 2 is 0
+.<span class="keyword">tap</span>(console.log)
+.map (num) ->
+    num * num
+.<span class="keyword">value</span>()
+console.log "result: #{result.join ', '}"
+<span class="output">&gt; [ 2, 4, 6 ]</span>
+<span class="output">&gt; result: 4, 16, 36</span>
+
+# Rubyやautobox的な
+_(3).times ->
+    console.log "hi"
+<span class="output">&gt; hi</span>
+<span class="output">&gt; hi</span>
+<span class="output">&gt; hi</span>
+
+</pre>
+</div>
+</li>
+
+<li class="slide" style="padding-top:1.5em">
+<div class="half-column">
+<pre class="code" style="font-size:60%">
+# 通常
+calls = 0
+fibonacci = (n) ->
+    calls++
+    if n < 2
+        n
+    else
+        fibonacci(n - 1) + fibonacci(n - 2)
+
+
+tests = 40
+elapsed = 0
+for num in [0..tests]
+    startTime = Date.now()
+    r = fibonacci(num)
+    elapsed += Date.now() - startTime
+    console.log "num=#{num} result=#{r}"
+console.log "elapsed #{elapsed} ms"
+console.log "called #{calls} times"
+<span class="output">
+...
+num: 37, result: 24157817
+num: 38, result: 39088169
+num: 39, result: 63245986
+num: 40, result: 102334155
+elapsed 15900 ms
+called 866988831 times
+</span>
+</pre>
+</div>
+
+<div class="half-column">
+<pre class="code">
+# memoize
+calls = 0
+fibonacci = (n) ->
+    calls++
+    if n < 2
+        n
+    else
+        fibonacci(n - 1) + fibonacci(n - 2)
+<span class="keyword">fibonacci = _(fibonacci).memoize()</span>
+
+tests = 40
+elapsed = 0
+for num in [0..tests]
+    startTime = Date.now()
+    r = fibonacci(num)
+    elapsed += Date.now() - startTime
+    console.log "num: #{num}, result: #{r}"
+console.log "elapsed #{elapsed} ms"
+console.log "called #{calls} times"
+<span class="output">
+...
+num: 37, result: 24157817
+num: 38, result: 39088169
+num: 39, result: 63245986
+num: 40, result: 102334155
+elapsed 0 ms
+called 41 times
+</span>
+</pre>
+</div>
+</li>
+
+<li class="slide">
+<br /><br /><br />
+<center>
+<h2 style="font-size:120%">ありがとうございました</h2>
+</center>
+</li>
+
+</ol>
+
+</body>
+</html>
