@@ -1,7 +1,7 @@
-a:link {
+a, a:visited {
   text-decoration: none;
 }
 
-a:hover {
+a:hover, a:focus {
   text-decoration: underline;
 }
