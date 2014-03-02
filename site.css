@@ -1,7 +1,8 @@
 a, a:visited {
+  color: #2d81c5;
   text-decoration: none;
 }
 
 a:hover, a:focus {
-  text-decoration: underline;
+  color: #2569a0;
 }
