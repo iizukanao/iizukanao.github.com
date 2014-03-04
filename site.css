@@ -5,4 +5,5 @@ a, a:visited {
 
 a:hover, a:focus {
   color: #2569a0;
+  text-decoration: underline;
 }
