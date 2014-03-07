@@ -4,6 +4,9 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
   text-shadow: 1px 1px #fff;
+  font-size: 150%;
+  font-weight: 300;
+  color: #5a5a5a;
 }
 
 #container {
