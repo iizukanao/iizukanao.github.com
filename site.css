@@ -23,10 +23,15 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
 }
 
-#main {
+#hero {
   margin: 0;
   padding: 120px 0 0 0;
   text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  line-height: 1.6;
 }
 
 a, a:visited {
