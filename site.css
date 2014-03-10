@@ -29,6 +29,11 @@ body {
   text-align: center;
 }
 
+#content {
+  margin-left: 5em;
+  margin-top: 3em;
+}
+
 ul {
   list-style-type: none;
   line-height: 1.6;
