@@ -29,6 +29,11 @@ body {
   text-align: center;
 }
 
+.hero-note {
+  margin-top: 2em;
+  font-size: 80%;
+}
+
 #content {
   margin-left: 5em;
   padding-top: 1em;
