@@ -25,19 +25,29 @@ body {
 
 #hero {
   margin: 0;
-  padding: 120px 0 0 0;
+  padding: 120px 0 120px 0;
   text-align: center;
 }
 
 #content {
   margin-left: 5em;
-  margin-top: 3em;
+  padding-top: 1em;
+  padding-bottom: 3em;
+}
+
+.project-description {
+  font-size: 70%;
+  margin-left: .5em;
 }
 
 ul {
   list-style-type: none;
-  line-height: 1.6;
   padding-left: 1em;
+}
+
+li {
+  margin-bottom: 1em;
+  line-height: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
